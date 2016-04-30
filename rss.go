@@ -186,6 +186,14 @@ func (this *Feed) readRss2(doc *xmlx.Document) (err error) {
 				i.Enclosures = append(i.Enclosures, enc)
 			}
 
+			tl = item.SelectNodes(ns, "content")
+			for _, lv := range tl {
+				media := new(Media)
+				media.Url = lv.As(ns, "url")
+				media.Type = lv.As(ns, "type")
+				i.Medias = append(i.Medias, media)
+			}
+
 			if src := item.SelectNode(ns, "source"); src != nil {
 				i.Source = new(Source)
 				i.Source.Url = src.As(ns, "url")
